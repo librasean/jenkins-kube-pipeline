@@ -1,18 +1,12 @@
 podTemplate(
-    label: 'mypod', 
+    label: 'mypod',
     inheritFrom: 'default',
     containers: [
         containerTemplate(
-            name: 'docker', 
-            image: 'docker:18.02',
+            name: 'docker',
+            image: 'docker:stable-dind',
             ttyEnabled: true,
             command: 'cat'
-        )
-    ],
-    volumes: [
-        hostPathVolume(
-            hostPath: '/var/run/docker.sock',
-            mountPath: '/var/run/docker.sock'
         )
     ]
 ) {
