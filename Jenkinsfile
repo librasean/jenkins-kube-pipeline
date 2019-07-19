@@ -4,7 +4,7 @@ podTemplate(
     containers: [
         containerTemplate(
             name: 'docker', 
-            image: 'docker:18.02',
+            image: 'docker:dind',
             ttyEnabled: true,
             command: 'cat'
         )
