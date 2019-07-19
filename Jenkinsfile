@@ -16,10 +16,9 @@ podTemplate(
             checkout scm
             commitId = sh(script: 'git rev-parse --short HEAD', returnStdout: true).trim()
         }
-        def repository
+        def repository = 'myalpine'
         stage ('Docker') {
             container ('docker') {
-                def repository = 'myalpine'
                 sh "docker build -t ${repository}:${commitId} ."
                 sh "docker push ${repository}:${commitId}"
             }
