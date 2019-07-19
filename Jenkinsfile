@@ -6,7 +6,8 @@ podTemplate(
             name: 'docker',
             image: 'docker:stable-dind',
             ttyEnabled: true,
-            command: 'cat'
+            command: 'cat',
+            privileged: true
         )
     ]
 ) {
