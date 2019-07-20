@@ -4,16 +4,11 @@ podTemplate(
     containers: [
         containerTemplate(
             name: 'docker',
-            image: 'docker:18.02',
+            image: 'docker:stable-dind',
             ttyEnabled: true,
-            command: 'cat'
+            command: 'cat',
+            privileged: true
         )
-    ],
-    volumes: [
-            hostPathVolume(
-                hostPath: '/var/run/docker.sock',
-                mountPath: '/var/run/docker.sock'
-            )
     ]
 ) {
     node('mypod') {
