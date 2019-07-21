@@ -38,7 +38,8 @@ podTemplate(
         stage('Deliver for development') {
             if (env.BRANCH_NAME == 'master') {
                 container('kubectl') {
-                    sh "kubectl get pods --all-namespaces"
+                    println "checking kubectl connnectivity to the API"
+                    sh "kubectl get nodes"
                 }
             }
             if (env.BRANCH_NAME == 'development') {
