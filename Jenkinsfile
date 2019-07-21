@@ -9,7 +9,7 @@ podTemplate(
             ttyEnabled: true,
             command: 'cat'
         ),
-        containerTemplate(name: 'helm', image: 'lachlanevenson/k8s-helm:v2.6.0', command: 'cat', ttyEnabled: true),
+        containerTemplate(name: 'helm', image: 'lachlanevenson/k8s-helm:v3.0.0-alpha.1', command: 'cat', ttyEnabled: true),
         containerTemplate(name: 'kubectl', image: 'lachlanevenson/k8s-kubectl:v1.11.9', command: 'cat', ttyEnabled: true)
     ],
     volumes: [
@@ -41,6 +41,22 @@ podTemplate(
                 container('kubectl') {
                     println "checking kubectl connnectivity to the API"
                     sh "kubectl get po -n ops"
+
+                }
+                container('helm') {
+                    println "initiliazing helm client"
+                    sh "helm init"
+                    println "checking client/server version"
+                    sh "helm version"
+                    println "Running deployment"
+
+                    // reimplement --wait once it works reliable
+                    sh "helm upgrade --install test ./test --set imageTag=latest,replicas=1 -namespace=letters-dev"
+
+                    // sleeping until --wait works reliably
+                    sleep(20)
+
+                    echo "Application ${args.name} successfully deployed. Use helm status ${args.name} to check"
                 }
             }
             if (env.BRANCH_NAME == 'development') {
