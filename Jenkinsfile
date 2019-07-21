@@ -42,7 +42,7 @@ podTemplate(
                 error "${e}"
             }
             println "env.GIT_REMOTE_URL ==> ${env.GIT_REMOTE_URL}"
-            println "env.BRANCH_NAME ==> ${env.BRANCH_NAME}"
+            println "env.BRANCH_NAME ==> ${env.GIT_BRANCH}"
         }
         def repository = 'nelson1/myalpine'
         stage ('Docker') {
@@ -56,7 +56,7 @@ podTemplate(
             }
         }
         stage('Deliver for development') {
-            if (env.BRANCH_NAME == 'master') {
+            if (env.GIT_BRANCH == 'master') {
                 container('kubectl') {
                     sh "kubectl get pods --all-namespaces"
                 }
