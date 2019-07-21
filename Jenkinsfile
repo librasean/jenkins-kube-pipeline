@@ -49,14 +49,15 @@ podTemplate(
                     println "checking client/server version"
                     sh "helm version"
                     println "Running deployment"
-
+                    sh "pwd"
+                    sh "ls -la"
                     // reimplement --wait once it works reliable
-                    sh "helm upgrade --install test ./test --set imageTag=latest,replicas=1 -namespace=letters-dev"
+                    sh "helm upgrade --install test test --set imageTag=latest,replicas=1 -namespace=letters-dev"
 
                     // sleeping until --wait works reliably
                     sleep(20)
 
-                    echo "Application ${args.name} successfully deployed. Use helm status ${args.name} to check"
+                    echo "Application test successfully deployed. Use helm status test to check"
                 }
             }
             if (env.BRANCH_NAME == 'development') {
