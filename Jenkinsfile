@@ -42,6 +42,7 @@ podTemplate(
                 error "${e}"
             }
             println "env.GIT_REMOTE_URL ==> ${env.GIT_REMOTE_URL}"
+            println "env.BRANCH_NAME ==> ${env.BRANCH_NAME}"
         }
         def repository = 'nelson1/myalpine'
         stage ('Docker') {
