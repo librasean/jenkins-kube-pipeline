@@ -23,7 +23,6 @@ podTemplate(
         stage ('Extract') {
             checkout scm
             commitId = sh(script: 'git rev-parse --short HEAD', returnStdout: true).trim()
-            sh "BRANCH NAME IS ${env.BRANCH_NAME}"
         }
         def repository = 'nelson1/myalpine'
         stage ('Docker') {
