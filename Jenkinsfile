@@ -39,7 +39,7 @@ podTemplate(
             if (env.BRANCH_NAME == 'master') {
                 container('kubectl') {
                     println "checking kubectl connnectivity to the API"
-                    sh "kubectl get nodes"
+                    sh "kubectl get po -n ops"
                 }
             }
             if (env.BRANCH_NAME == 'development') {
