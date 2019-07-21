@@ -1,7 +1,7 @@
 podTemplate(
     label: 'mypod',
     inheritFrom: 'default',
-    serviceAccount: 'jx-jenkins'
+    serviceAccount: 'jx-jenkins',
     containers: [
         containerTemplate(
             name: 'docker',
