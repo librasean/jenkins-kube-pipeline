@@ -23,6 +23,7 @@ podTemplate(
         stage ('Extract') {
             checkout scm
             commitId = sh(script: 'git rev-parse --short HEAD', returnStdout: true).trim()
+            sh "BRANCH NAME IS ${env.BRANCH_NAME}"
         }
         def repository = 'nelson1/myalpine'
         stage ('Docker') {
@@ -37,11 +38,11 @@ podTemplate(
         }
 
         if (env.BRANCH_NAME == 'master') {
-              stage ('deploy to k8s') {
-                container('kubectl') {
-                    sh "kubectl get pods --all-namespaces"
-                }
-              }
+          stage ('deploy to k8s') {
+            container('kubectl') {
+                sh "kubectl get pods --all-namespaces"
             }
+          }
+        }
     }
 }
