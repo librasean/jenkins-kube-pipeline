@@ -25,7 +25,7 @@ podTemplate(
         def repository = 'myalpine'
         stage ('Docker') {
             container ('docker') {
-                withCredentials([credentialsId: 'dockerhub']) {
+                withRegistry('hub.docker.com' 'dockerhub') {
                     sh "docker build -t ${repository}:${commitId} ."
                     sh "docker push ${repository}:${commitId}"
                 }
