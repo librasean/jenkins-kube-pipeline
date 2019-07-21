@@ -22,7 +22,7 @@ podTemplate(
             checkout scm
             commitId = sh(script: 'git rev-parse --short HEAD', returnStdout: true).trim()
         }
-        def repository = 'myalpine'
+        def repository = 'nelson1/myalpine'
         stage ('Docker') {
             container ('docker') {
                 withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'dockerhub',
