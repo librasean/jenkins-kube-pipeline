@@ -47,7 +47,7 @@ podTemplate(
                 }
                 container('helm') {
                     def pwd = pwd()
-                    def chart_dir = "${pwd}/charts/croc-hunter"
+                    def chart_dir = "${pwd}/test"
                     println "initiliazing helm client"
                     sh "helm init"
                     println "checking client/server version"
