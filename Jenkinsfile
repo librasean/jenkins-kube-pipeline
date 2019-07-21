@@ -53,7 +53,9 @@ podTemplate(
                     println "checking client/server version"
                     sh "helm version"
                     println "Running deployment"
-
+                    sh "pwd"
+                    sh "ls -la"
+                    sh "ls -la test"
                     // reimplement --wait once it works reliable
                     sh "helm upgrade --install test ${chart_dir} --set imageTag=latest,replicas=1 -namespace=letters-dev"
 
