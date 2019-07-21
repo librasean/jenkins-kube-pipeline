@@ -24,32 +24,6 @@ podTemplate(
             sh 'printenv'
             checkout scm
             commitId = sh(script: 'git rev-parse --short HEAD', returnStdout: true).trim()
-            // create git envvars
-            println "Setting envvars to tag container"
-
-            sh 'git rev-parse HEAD > git_commit_id.txt'
-            try {
-                env.GIT_COMMIT_ID = readFile('git_commit_id.txt').trim()
-                env.GIT_SHA = env.GIT_COMMIT_ID.substring(0, 7)
-            } catch (e) {
-                error "${e}"
-            }
-            println "env.GIT_COMMIT_ID ==> ${env.GIT_COMMIT_ID}"
-
-            sh 'git config --get remote.origin.url> git_remote_origin_url.txt'
-            try {
-                env.GIT_REMOTE_URL = readFile('git_remote_origin_url.txt').trim()
-            } catch (e) {
-                error "${e}"
-            }
-            sh 'git rev-parse --abbrev-ref HEAD > git_branch.txt'
-            try {
-                env.GIT_BRANCH = readFile('git_branch.txt').trim()
-            } catch (e) {
-                error "${e}"
-            }
-            println "env.GIT_REMOTE_URL ==> ${env.GIT_REMOTE_URL}"
-            println "env.BRANCH_NAME ==> ${env.GIT_BRANCH}"
         }
         def repository = 'nelson1/myalpine'
         stage ('Docker') {
@@ -63,7 +37,12 @@ podTemplate(
             }
         }
         stage('Deliver for development') {
-            if (env.GIT_BRANCH == 'master') {
+            if (env.BRANCH_NAME == 'master') {
+                container('kubectl') {
+                    sh "kubectl get pods --all-namespaces"
+                }
+            }
+            if (env.BRANCH_NAME == 'development') {
                 container('kubectl') {
                     sh "kubectl get pods --all-namespaces"
                 }
