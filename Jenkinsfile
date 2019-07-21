@@ -41,6 +41,7 @@ podTemplate(
             } catch (e) {
                 error "${e}"
             }
+            println "Alternate branch name is $(git rev-parse --abbrev-ref HEAD)"
             println "env.GIT_REMOTE_URL ==> ${env.GIT_REMOTE_URL}"
             println "env.BRANCH_NAME ==> ${env.GIT_BRANCH}"
         }
