@@ -36,13 +36,13 @@ podTemplate(
                 }
             }
         }
-
-        if (env.BRANCH_NAME == 'master') {
-          stage ('deploy to k8s') {
-            container('kubectl') {
-                sh "kubectl get pods --all-namespaces"
+        stage('Deliver for development') {
+            when {
+                branch 'master'
             }
-          }
+            container('kubectl') {
+              sh "kubectl get pods --all-namespaces"
+            }
         }
     }
 }
