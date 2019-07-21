@@ -22,8 +22,7 @@ podTemplate(
     node('mypod') {
         def commitId
         stage ('Extract') {
-            def pwd = pwd()
-            def chart_dir = "${pwd}/test"
+
 
             checkout scm
             commitId = sh(script: 'git rev-parse --short HEAD', returnStdout: true).trim()
@@ -47,6 +46,8 @@ podTemplate(
 
                 }
                 container('helm') {
+                    def pwd = pwd()
+                    def chart_dir = "${pwd}/charts/croc-hunter"
                     println "initiliazing helm client"
                     sh "helm init"
                     println "checking client/server version"
