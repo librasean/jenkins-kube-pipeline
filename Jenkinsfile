@@ -25,9 +25,9 @@ podTemplate(
         def repository = 'myalpine'
         stage ('Docker') {
             container ('docker') {
-                withCredentials([[$class          : 'UsernamePasswordMultiBinding', credentialsId: 'dockerhub',
+                withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'dockerhub',
                                         usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
-                      sh "docker login -u ${env.USERNAME} -p ${env.PASSWORD} ${config.container_repo.host}"
+                      sh "docker login -u ${env.USERNAME} -p ${env.PASSWORD}"
                       sh "docker build -t ${repository}:${commitId} ."
                       sh "docker push ${repository}:${commitId}"
                 }
