@@ -25,7 +25,7 @@ podTemplate(
         def repository = 'myalpine'
         stage ('Docker') {
             container ('docker') {
-                withCredentials([credentialsId: config.container_repo.jenkins_creds_id]) {
+                withCredentials([credentialsId: 'dockerhub']) {
                     sh "docker build -t ${repository}:${commitId} ."
                     sh "docker push ${repository}:${commitId}"
                 }
