@@ -57,7 +57,7 @@ podTemplate(
                     sh "ls -la"
                     sh "ls -la test"
                     // reimplement --wait once it works reliable
-                    sh "helm upgrade --install test ${chart_dir} --set imageTag=latest,replicas=1 -namespace=letters-dev"
+                    sh "helm upgrade --install test ${chart_dir} --set imageTag=latest,replicas=1 --namespace=letters-dev"
 
                     // sleeping until --wait works reliably
                     sleep(20)
