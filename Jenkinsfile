@@ -19,7 +19,10 @@ podTemplate(
     ]
 ) {
     node('mypod') {
-        def gitEnvVars() {
+        def commitId
+        stage ('Extract') {
+            checkout scm
+            commitId = sh(script: 'git rev-parse --short HEAD', returnStdout: true).trim()
             // create git envvars
             println "Setting envvars to tag container"
 
@@ -39,13 +42,6 @@ podTemplate(
                 error "${e}"
             }
             println "env.GIT_REMOTE_URL ==> ${env.GIT_REMOTE_URL}"
-        }
-
-        gitEnvVars()
-        def commitId
-        stage ('Extract') {
-            checkout scm
-            commitId = sh(script: 'git rev-parse --short HEAD', returnStdout: true).trim()
         }
         def repository = 'nelson1/myalpine'
         stage ('Docker') {
