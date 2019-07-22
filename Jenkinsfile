@@ -35,36 +35,31 @@ podTemplate(
             }
         }
         stage('Deliver for development') {
+            def namespace;
             if (env.BRANCH_NAME == 'master') {
-                container('kubectl') {
-                    println "checking kubectl connnectivity to the API"
-                    sh "kubectl get po -n ops"
-
-                }
-                container('helm') {
-                    def pwd = pwd()
-                    def chart_dir = "${pwd}/test"
-                    println "initiliazing helm client"
-                    sh "helm init"
-                    println "checking client/server version"
-                    sh "helm version"
-                    println "Running deployment"
-                    sh "pwd"
-                    sh "ls -la"
-                    sh "ls -la test"
-                    // reimplement --wait once it works reliable
-                    sh "helm upgrade --install test ${chart_dir} --set imageTag=latest,replicas=1 --namespace=letters-dev"
-
-                    // sleeping until --wait works reliably
-                    sleep(20)
-
-                    echo "Application test successfully deployed. Use helm status test to check"
-                }
+                namespace = "letters-preprod"
             }
             if (env.BRANCH_NAME == 'development') {
-                container('kubectl') {
-                    sh "kubectl get pods --all-namespaces"
-                }
+                namespace = "letters-dev"
+            }
+            container('helm') {
+                def pwd = pwd()
+                def chart_dir = "${pwd}/test"
+                println "initiliazing helm client"
+                sh "helm init"
+                println "checking client/server version"
+                sh "helm version"
+                println "Running deployment"
+                sh "pwd"
+                sh "ls -la"
+                sh "ls -la test"
+                // reimplement --wait once it works reliable
+                sh "helm upgrade --install test ${chart_dir} --set imageTag=latest,replicas=1 --namespace=${namespace}"
+
+                // sleeping until --wait works reliably
+                sleep(20)
+
+                echo "Application test successfully deployed. Use helm status test to check"
             }
         }
     }
