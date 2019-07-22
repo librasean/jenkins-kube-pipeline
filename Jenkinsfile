@@ -19,17 +19,7 @@ podTemplate(
         stage ('Extract') {
             checkout scm
             commitId = sh(script: 'git rev-parse --short HEAD', returnStdout: true).trim()
-        }
-
-        // read in required jenkins workflow config values
-        def inputFile = readFile('Jenkinsfile.json')
-        def config = new groovy.json.JsonSlurperClassic().parseText(inputFile)
-        println "pipeline config ==> ${config}"
-
-        // continue only if pipeline enabled
-        if (!config.pipeline.enabled) {
-            println "pipeline disabled"
-            return
+            println "DTR ==> ${env.DTR}"
         }
 
         def repository = 'nelson1/myalpine'
