@@ -21,13 +21,14 @@ podTemplate(
             commitId = sh(script: 'git rev-parse --short HEAD', returnStdout: true).trim()
             println "DTR ==> ${env.DTR}"
         }
-
-        def repository = 'nelson1/myalpine'
+        def registry = ${env.DTR}
+        def repository = ${registry} == null ? 'nelson1/myalpine' : ${registry}/nelson1/myalpine
         stage ('Docker') {
             container ('docker') {
+
                 withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'dockerhub',
                                         usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
-                      sh "docker login -u ${env.USERNAME} -p ${env.PASSWORD}"
+                      sh "docker login -u ${env.USERNAME} -p ${env.PASSWORD} ${registry}"
                       sh "docker build -t ${repository}:${commitId} ."
                       sh "docker push ${repository}:${commitId}"
                 }
