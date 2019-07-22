@@ -23,10 +23,10 @@ podTemplate(
         }
         def registry = ${env.DTR}
         def repository
-        if(${registry} == null) {
+        if(${registry}) {
          repository = 'nelson1/myalpine'
         } else {
-          ${registry}/nelson1/myalpine
+          repository = ${registry}/nelson1/myalpine
         }
         stage ('Docker') {
             container ('docker') {
