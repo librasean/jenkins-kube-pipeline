@@ -3,14 +3,9 @@ podTemplate(
     inheritFrom: 'default',
     serviceAccount: 'jx-jenkins',
     containers: [
-        containerTemplate(
-            name: 'docker',
-            image: 'docker:18.02',
-            ttyEnabled: true,
-            command: 'cat'
-        ),
+        containerTemplate(name: 'docker', image: 'docker:stable', command: 'cat', ttyEnabled: true),
         containerTemplate(name: 'helm', image: 'lachlanevenson/k8s-helm:v3.0.0-alpha.1', command: 'cat', ttyEnabled: true),
-        containerTemplate(name: 'kubectl', image: 'lachlanevenson/k8s-kubectl:v1.11.9', command: 'cat', ttyEnabled: true)
+        containerTemplate(name: 'kubectl', image: 'lachlanevenson/k8s-kubectl:v1.15.1', command: 'cat', ttyEnabled: true)
     ],
     volumes: [
             hostPathVolume(
