@@ -26,7 +26,7 @@ podTemplate(
         if(${registry}) {
          repository = 'nelson1/myalpine'
         } else {
-          repository = ${registry}/nelson1/myalpine
+          repository = "${registry}/nelson1/myalpine"
         }
         stage ('Docker') {
             container ('docker') {
