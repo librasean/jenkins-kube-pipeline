@@ -22,7 +22,12 @@ podTemplate(
             println "DTR ==> ${env.DTR}"
         }
         def registry = ${env.DTR}
-        def repository = ${registry} == null ? 'nelson1/myalpine' : ${registry}/nelson1/myalpine
+        def repository
+        if(${registry} == null) {
+         repository = 'nelson1/myalpine'
+        } else {
+          ${registry}/nelson1/myalpine
+        }
         stage ('Docker') {
             container ('docker') {
 
@@ -45,7 +50,7 @@ podTemplate(
             container('helm') {
                 def pwd = pwd()
                 def chart_dir = "${pwd}/test"
-                println "initiliazing helm client"
+                println "initializing helm client"
                 sh "helm init"
                 println "checking client/server version"
                 sh "helm version"
