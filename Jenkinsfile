@@ -44,7 +44,7 @@ podTemplate(
             if (env.BRANCH_NAME == 'master') {
                 namespace = "letters-preprod"
             }
-            if (env.BRANCH_NAME == 'development') {
+            if (env.BRANCH_NAME == 'development' || env.BRANCH_NAME  =~ "PR-*") {
                 namespace = "letters-dev"
             }
             container('helm') {
