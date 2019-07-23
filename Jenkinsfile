@@ -24,14 +24,14 @@ podTemplate(
         def registry = env.DTR
         def repository
         if (env.DTR ) {
-          repository = "nelson1/myalpine"
+          repository = "testorg/base-alpine"
         } else {
-          repository = env.DTR + "/nelson1/myalpine"
+          repository = env.DTR + "/testorg/base-alpine"
         }
         stage ('Docker') {
             container ('docker') {
 
-                withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'dockerhub',
+                withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'dtr',
                                         usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
                       sh "docker login -u ${env.USERNAME} -p ${env.PASSWORD} ${registry}"
                       sh "docker build -t ${repository}:${commitId} ."
