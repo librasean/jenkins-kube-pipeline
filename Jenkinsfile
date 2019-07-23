@@ -21,12 +21,12 @@ podTemplate(
             commitId = sh(script: 'git rev-parse --short HEAD', returnStdout: true).trim()
             println "DTR ==> ${env.DTR}"
         }
-        def registry = ${env.DTR}
+        def registry = env.DTR
         def repository
-        if(${registry}) {
-         repository = 'nelson1/myalpine'
+        if (env.DTR ) {
+          repository = "nelson1/myalpine"
         } else {
-          repository = "${registry}/nelson1/myalpine"
+          repository = env.DTR + "/nelson1/myalpine"
         }
         stage ('Docker') {
             container ('docker') {
