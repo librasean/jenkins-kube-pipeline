@@ -24,9 +24,9 @@ podTemplate(
         def registry = env.DTR
         def repository
         if (env.DTR ) {
-          repository = "testorg/base-alpine"
-        } else {
           repository = env.DTR + "/testorg/base-alpine"
+        } else {
+          repository = "testorg/base-alpine"
         }
         stage ('Docker') {
             container ('docker') {
