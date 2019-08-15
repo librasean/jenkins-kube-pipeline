@@ -1,5 +1,5 @@
 podTemplate(
-    label: 'mypod',
+    label: 'jenkins-build',
     inheritFrom: 'default',
     serviceAccount: 'jx-jenkins',
     containers: [
@@ -14,7 +14,7 @@ podTemplate(
             )
     ]
 ) {
-    node('mypod') {
+    node('jenkins-build') {
         def commitId
         stage ('Extract') {
             checkout scm
@@ -22,12 +22,7 @@ podTemplate(
             println "DTR ==> ${env.DTR}"
         }
         def registry = env.DTR
-        def repository
-        if (env.DTR ) {
-          repository = "testorg/base-alpine"
-        } else {
-          repository = env.DTR + "/testorg/base-alpine"
-        }
+        def repository = env.DTR + "/testorg/" + env.JOB_BASE_NAME
         stage ('Docker') {
             container ('docker') {
 
@@ -44,7 +39,7 @@ podTemplate(
             if (env.BRANCH_NAME == 'master') {
                 namespace = "letters-preprod"
             }
-            if (env.BRANCH_NAME == 'development') {
+            if (env.BRANCH_NAME == 'development' || env.BRANCH_NAME  =~ "PR-*") {
                 namespace = "letters-dev"
             }
             container('helm') {
@@ -55,9 +50,6 @@ podTemplate(
                 println "checking client/server version"
                 sh "helm version"
                 println "Running deployment"
-                sh "pwd"
-                sh "ls -la"
-                sh "ls -la test"
                 // reimplement --wait once it works reliable
                 sh "helm upgrade --install test ${chart_dir} --set imageTag=latest,replicas=1 --namespace=${namespace}"
 
